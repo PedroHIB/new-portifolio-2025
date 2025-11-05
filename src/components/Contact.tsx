@@ -11,28 +11,19 @@ const Contact = () => {
   const { toast } = useToast();
   const { language } = useLanguage();
   const t = translations[language];
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.name) {
-      toast({
-        title: t.errorName,
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (!formData.email) {
-      toast({
-        title: t.errorEmail,
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (!formData.message) {
+
+    const { name, email, message } = formData;
+
+    if (!name || !email || !message) {
       toast({
         title: t.errorMessage,
         variant: "destructive",
@@ -40,35 +31,67 @@ const Contact = () => {
       return;
     }
 
-    toast({
-      title: t.successMessage,
-    });
-    
-    setFormData({ name: "", email: "", message: "" });
+    try {
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"
+        }/send-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast({ title: t.successMessage });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast({
+          title: data.message || "Erro ao enviar mensagem.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao conectar:", error);
+      toast({
+        title: "Falha ao conectar ao servidor.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <section id="contact" className="py-24 px-4 dark-section">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.contactTitle}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            {t.contactTitle}
+          </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
           <p className="text-dark-section-foreground/80 mt-4">
             {t.contactDescription}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mb-12 animate-slide-up">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 mb-12 animate-slide-up"
+        >
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
                 {t.name}
               </label>
-              <Input 
+              <Input
                 id="name"
                 placeholder={t.name}
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="bg-card border-border"
               />
             </div>
@@ -76,27 +99,31 @@ const Contact = () => {
               <label htmlFor="email" className="text-sm font-medium">
                 {t.email}
               </label>
-              <Input 
+              <Input
                 id="email"
                 type="email"
                 placeholder={t.email}
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="bg-card border-border"
               />
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <label htmlFor="message" className="text-sm font-medium">
               {t.message}
             </label>
-            <Textarea 
+            <Textarea
               id="message"
               placeholder={t.message}
               rows={6}
               value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, message: e.target.value })
+              }
               className="bg-card border-border"
             />
           </div>
