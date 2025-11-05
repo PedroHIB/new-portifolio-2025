@@ -1,18 +1,19 @@
 import express from "express";
 import nodemailer from "nodemailer";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
-app.use(
-  cors({
-    origin: "https://portifolio-phib.vercel.app/",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  }) as unknown as express.RequestHandler
-);
+
+const corsOptions: CorsOptions = {
+  origin: ["http://localhost:8080", "https://portifolio-phib.vercel.app"],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
