@@ -32,10 +32,12 @@ const Contact = () => {
     }
 
     try {
-      const baseUrl =
-        import.meta.env.MODE === "development" ? "http://localhost:3001" : "";
+      const isDev = import.meta.env.MODE === "development";
 
-      const response = await fetch(`${baseUrl}/api/send-email`, {
+      const baseUrl = isDev ? "http://localhost:3001" : "";
+      const endpoint = isDev ? "/send-email" : "/api/send-email";
+
+      const response = await fetch(`${baseUrl}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
