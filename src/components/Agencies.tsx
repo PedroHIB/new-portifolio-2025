@@ -1,7 +1,8 @@
-import vtexImg from "@/assets/agencies/vtex-partner.jpg";
-import corebizImg from "@/assets/agencies/corebiz.jpg";
-import accentureImg from "@/assets/agencies/accenture.jpg";
-import tivitImg from "@/assets/agencies/tivit.jpg";
+import cadastra from "@/assets/agencies/cadastra.png";
+import corebizImg from "@/assets/agencies/corebiz.png";
+import Jussi from "@/assets/agencies/jussi.jpg";
+import b8one from "@/assets/agencies/b8one.png";
+import qualitydigital from "@/assets/agencies/qualitydigital.png";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { translations } from "@/lib/translations";
 
@@ -10,20 +11,29 @@ const Agencies = () => {
   const t = translations[language];
   const agencies = [
     {
-      name: "VTEX Partner",
-      image: vtexImg
+      name: "Cadastra (M3)",
+      image: cadastra,
+      href: "https://www.cadastra.com.br/",
     },
     {
       name: "Corebiz",
-      image: corebizImg
+      image: corebizImg,
+      href: "https://www.corebiz.com.br/",
     },
     {
-      name: "Accenture",
-      image: accentureImg
+      name: "Jussi",
+      image: Jussi,
+      href: "https://www.accenture.com/br-pt",
     },
     {
-      name: "Tivit",
-      image: tivitImg
+      name: "Quality Digital",
+      image: qualitydigital,
+      href: "https://qualitydigital.global/",
+    },
+    {
+      name: "B8one",
+      image: b8one,
+      href: "https://www.tivit.com.br/",
     },
   ];
 
@@ -31,7 +41,9 @@ const Agencies = () => {
     <section className="py-24 px-4 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.agenciesTitle}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            {t.agenciesTitle}
+          </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
             {t.agenciesDescription}
@@ -40,17 +52,18 @@ const Agencies = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
           {agencies.map((agency, index) => (
-            <div 
+            <a
+              href={agency.href}
               key={index}
               className="flex items-center justify-center p-8 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <img 
-                src={agency.image} 
+              <img
+                src={agency.image}
                 alt={agency.name}
-                className="w-full h-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-300 bg-white"
               />
-            </div>
+            </a>
           ))}
         </div>
       </div>

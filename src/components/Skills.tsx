@@ -6,22 +6,28 @@ const Skills = () => {
   const { language } = useLanguage();
   const t = translations[language];
   const technologies = [
+    { name: "JavaScript", icon: Code2 },
+    { name: "Jquery", icon: Code2 },
     { name: "React", icon: Code2 },
+    { name: "NextJS", icon: Code2 },
     { name: "TypeScript", icon: Code2 },
     { name: "VTEX IO", icon: Zap },
+    { name: "VTEX Legacy", icon: Zap },
+    { name: "Drupal CMS", icon: Zap },
     { name: "GraphQL", icon: Database },
     { name: "Sass", icon: Palette },
+    { name: "Styled Components", icon: Palette },
+    { name: "Bootstrap", icon: Palette },
     { name: "TailwindCSS", icon: Palette },
-    { name: "MobX", icon: Database },
-    { name: "Deno", icon: Zap },
-    { name: "Node.js", icon: Zap },
   ];
 
   return (
     <section id="skills" className="py-24 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.skillsTitle}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            {t.skillsTitle}
+          </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
             {t.skillsDescription}
@@ -43,7 +49,9 @@ const Skills = () => {
                     <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <span className="font-semibold text-sm text-center">{tech.name}</span>
+                    <span className="font-semibold text-sm text-center">
+                      {tech.name}
+                    </span>
                   </div>
                 </div>
               );
@@ -65,7 +73,9 @@ const Skills = () => {
                   <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
-                  <span className="font-semibold text-sm text-center">{tech.name}</span>
+                  <span className="font-semibold text-sm text-center">
+                    {tech.name}
+                  </span>
                 </div>
               </div>
             );
